@@ -1,1 +1,952 @@
-coding lol
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NovaCut Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg-900: #05060f;
+      --bg-800: #0f1320;
+      --bg-700: #161b2c;
+      --bg-600: #1c2234;
+      --bg-500: #262f45;
+      --accent: linear-gradient(135deg, #5c5cff, #8f5fff);
+      --accent-solid: #6d63ff;
+      --text-primary: #f3f4ff;
+      --text-secondary: rgba(243, 244, 255, 0.72);
+      --border: rgba(255, 255, 255, 0.08);
+      --shadow-strong: 0 24px 60px rgba(0, 0, 0, 0.45);
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --radius-sm: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, rgba(111, 63, 255, 0.2), transparent 45%), var(--bg-900);
+      color: var(--text-primary);
+      font-family: "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 18px 42px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(18px);
+      background: rgba(15, 19, 32, 0.72);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand svg {
+      width: 42px;
+      height: 42px;
+      filter: drop-shadow(0 6px 20px rgba(111, 99, 255, 0.4));
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      font-size: 0.95rem;
+    }
+
+    nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      position: relative;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -8px;
+      width: 100%;
+      height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 0.25s ease;
+    }
+
+    nav a:hover {
+      color: var(--text-primary);
+    }
+
+    nav a:hover::after {
+      transform: scaleX(1);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 12px 20px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-primary);
+      backdrop-filter: blur(12px);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn.primary {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 12px 30px rgba(108, 99, 255, 0.35);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 20px;
+      padding: 26px 32px 48px;
+    }
+
+    aside {
+      background: radial-gradient(circle at top right, rgba(108, 99, 255, 0.16), transparent 45%), var(--bg-800);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-strong);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .asset-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .asset-card {
+      background: var(--bg-600);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      border: 1px solid transparent;
+      transition: border 0.2s ease, transform 0.2s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .asset-card:hover {
+      border: 1px solid rgba(111, 99, 255, 0.6);
+      transform: translateY(-4px);
+    }
+
+    .asset-card span {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-rows: auto 320px auto;
+      gap: 20px;
+    }
+
+    .preview-panel {
+      background: rgba(15, 19, 32, 0.72);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(18px);
+      padding: 24px;
+      box-shadow: var(--shadow-strong);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .preview-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .preview-toolbar .btn {
+      background: rgba(255, 255, 255, 0.04);
+      font-size: 0.9rem;
+    }
+
+    .preview-frame {
+      position: relative;
+      border-radius: var(--radius-md);
+      background: #05060f;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      aspect-ratio: 16 / 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #000;
+    }
+
+    canvas.overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .timeline-panel {
+      background: linear-gradient(160deg, rgba(15, 19, 32, 0.88), rgba(35, 41, 65, 0.85));
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      padding: 24px;
+      display: grid;
+      gap: 18px;
+      box-shadow: var(--shadow-strong);
+    }
+
+    .timeline-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .layer-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .layer {
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 18px;
+      align-items: center;
+      border: 1px solid transparent;
+      transition: border 0.2s ease;
+    }
+
+    .layer:hover {
+      border: 1px solid rgba(111, 99, 255, 0.5);
+    }
+
+    .layer h4 {
+      margin: 0;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .track {
+      background: rgba(9, 12, 20, 0.9);
+      border-radius: var(--radius-sm);
+      height: 48px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .clip {
+      position: absolute;
+      top: 8px;
+      height: calc(100% - 16px);
+      border-radius: var(--radius-sm);
+      background: rgba(111, 99, 255, 0.6);
+      box-shadow: 0 10px 28px rgba(111, 99, 255, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .playhead {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: #f43b86;
+      box-shadow: 0 0 12px rgba(244, 59, 134, 0.8);
+      pointer-events: none;
+    }
+
+    .inspector-panel {
+      background: rgba(15, 19, 32, 0.92);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: var(--shadow-strong);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    label {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: #8f5fff;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      color: var(--text-primary);
+      font-size: 0.92rem;
+      font-family: inherit;
+    }
+
+    input[type="color"] {
+      width: 100%;
+      height: 42px;
+      border-radius: var(--radius-sm);
+      border: none;
+      background: transparent;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(111, 99, 255, 0.14);
+      color: #b7b2ff;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .hotkey {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      font-size: 0.75rem;
+    }
+
+    .status-light {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #34d399;
+      box-shadow: 0 0 12px rgba(52, 211, 153, 0.7);
+    }
+
+    footer {
+      margin: 18px 32px 32px;
+      color: rgba(255, 255, 255, 0.28);
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .floating-hint {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      background: rgba(15, 19, 32, 0.85);
+      border-radius: var(--radius-md);
+      padding: 18px 22px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+    }
+
+    .floating-hint strong {
+      font-weight: 600;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .controls button {
+      background: rgba(111, 99, 255, 0.12);
+      border: 1px solid rgba(111, 99, 255, 0.4);
+      border-radius: 12px;
+      color: var(--text-primary);
+      padding: 10px 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.3s ease;
+    }
+
+    .controls button:hover {
+      background: rgba(111, 99, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .controls .primary {
+      background: linear-gradient(135deg, #5c5cff, #8f5fff);
+      border: none;
+      box-shadow: 0 12px 30px rgba(111, 99, 255, 0.35);
+    }
+
+    .timeline-progress {
+      position: relative;
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      overflow: hidden;
+    }
+
+    .timeline-progress span {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(111, 99, 255, 0.6), rgba(244, 59, 134, 0.6));
+      transform-origin: left;
+      transform: scaleX(0);
+    }
+
+    .text-overlay-preview {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .text-overlay-preview span {
+      font-size: clamp(1.6rem, 2.4vw, 3.2rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: #fff;
+      text-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      mix-blend-mode: screen;
+    }
+
+    @media (max-width: 1320px) {
+      main {
+        grid-template-columns: 280px 1fr;
+      }
+    }
+
+    @media (max-width: 1080px) {
+      body {
+        background: var(--bg-900);
+      }
+
+      header {
+        flex-direction: column;
+        gap: 18px;
+        position: static;
+      }
+
+      main {
+        grid-template-columns: 1fr;
+      }
+
+      aside {
+        order: 3;
+      }
+
+      .workspace {
+        grid-template-rows: auto auto auto;
+      }
+
+      .floating-hint {
+        display: none;
+      }
+    }
+
+    @media (max-width: 720px) {
+      header {
+        padding: 18px 22px;
+      }
+
+      main {
+        padding: 22px;
+      }
+
+      aside {
+        padding: 18px;
+      }
+
+      .preview-panel,
+      .timeline-panel,
+      .inspector-panel {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="12" y="12" width="96" height="96" rx="28" fill="url(#paint0_linear)" />
+        <path d="M42 40L78 60L42 80V40Z" fill="white" opacity="0.88" />
+        <defs>
+          <linearGradient id="paint0_linear" x1="12" y1="12" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#5c5cff" />
+            <stop offset="1" stop-color="#f43b86" />
+          </linearGradient>
+        </defs>
+      </svg>
+      NovaCut Studio
+    </div>
+    <nav>
+      <a href="#">Projects</a>
+      <a href="#" class="active">Editor</a>
+      <a href="#">Templates</a>
+      <a href="#">Learn</a>
+    </nav>
+    <div class="header-actions">
+      <button class="btn">Import Media</button>
+      <button class="btn primary">Export</button>
+    </div>
+  </header>
+  <main>
+    <aside>
+      <div class="panel-header">
+        <span>Asset Library</span>
+        <div class="badge"><span class="status-light"></span> Synced</div>
+      </div>
+      <label class="btn" for="video-input">Upload Clip</label>
+      <input type="file" id="video-input" accept="video/*" hidden>
+      <div class="asset-grid" id="asset-grid">
+        <div class="asset-card">
+          <strong>Nebula Loop</strong>
+          <span>00:08 • 4K</span>
+        </div>
+        <div class="asset-card">
+          <strong>City Drift</strong>
+          <span>00:12 • 1080p</span>
+        </div>
+        <div class="asset-card">
+          <strong>Dust Particles</strong>
+          <span>Overlay • 60fps</span>
+        </div>
+        <div class="asset-card">
+          <strong>Retro Grid</strong>
+          <span>Background • 8K</span>
+        </div>
+      </div>
+      <section>
+        <div class="panel-header">
+          <span>Hotkeys</span>
+          <div class="badge">Workflow</div>
+        </div>
+        <div class="layer-list">
+          <div class="layer" style="grid-template-columns: auto 1fr;">
+            <span class="hotkey">Space</span>
+            <span>Play / Pause</span>
+          </div>
+          <div class="layer" style="grid-template-columns: auto 1fr;">
+            <span class="hotkey">B</span>
+            <span>Blade Tool</span>
+          </div>
+          <div class="layer" style="grid-template-columns: auto 1fr;">
+            <span class="hotkey">Shift + E</span>
+            <span>Instant Export</span>
+          </div>
+        </div>
+      </section>
+    </aside>
+    <section class="workspace">
+      <div class="preview-panel">
+        <div class="preview-toolbar">
+          <div class="controls">
+            <button id="rewind-btn">⏮︎</button>
+            <button id="play-btn" class="primary">▶︎ Play</button>
+            <button id="forward-btn">⏭︎</button>
+          </div>
+          <div class="controls">
+            <button id="snapshot-btn">📸 Snapshot</button>
+            <button id="loop-btn">🔁 Loop</button>
+          </div>
+        </div>
+        <div class="preview-frame">
+          <video id="preview" preload="metadata"></video>
+          <canvas class="overlay" id="preview-canvas"></canvas>
+          <div class="text-overlay-preview" id="text-overlay">
+            <span id="text-overlay-content"></span>
+          </div>
+        </div>
+        <div class="timeline-progress">
+          <span id="progress-indicator"></span>
+        </div>
+      </div>
+      <div class="timeline-panel">
+        <div class="timeline-header">
+          <div>
+            <h3 style="margin:0;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;font-size:0.9rem;color:var(--text-secondary)">Timeline</h3>
+            <small style="color:rgba(255,255,255,0.4)">Drag assets to build your story</small>
+          </div>
+          <div class="controls">
+            <button id="add-layer-btn">＋ Layer</button>
+            <button id="clear-layers-btn">🧹 Clear</button>
+          </div>
+        </div>
+        <div class="layer-list" id="layer-list">
+          <div class="layer" data-layer="video">
+            <h4>Video Layer</h4>
+            <div class="track">
+              <div class="clip" style="left: 0; right: 40%">Intro Clip</div>
+              <div class="clip" style="left: 60%; right: 0">Outro</div>
+              <div class="playhead" id="playhead"></div>
+            </div>
+          </div>
+          <div class="layer" data-layer="audio">
+            <h4>Audio Layer</h4>
+            <div class="track" style="background: rgba(43, 26, 58, 0.6);">
+              <div class="clip" style="left: 10%; right: 10%; background: rgba(244, 59, 134, 0.6);">Synthwave</div>
+              <div class="playhead"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="inspector-panel">
+        <div class="panel-header">
+          <span>Inspector</span>
+          <div class="badge">Clip Tools</div>
+        </div>
+        <div class="form-group">
+          <label for="clip-name">Clip Name</label>
+          <input type="text" id="clip-name" placeholder="Hero Montage">
+        </div>
+        <div class="form-group">
+          <label for="start-range">In Point</label>
+          <input type="range" id="start-range" min="0" max="90" value="0">
+        </div>
+        <div class="form-group">
+          <label for="end-range">Out Point</label>
+          <input type="range" id="end-range" min="10" max="120" value="60">
+        </div>
+        <div class="form-group">
+          <label for="overlay-text">Text Overlay</label>
+          <input type="text" id="overlay-text" placeholder="Type your title">
+        </div>
+        <div class="form-group">
+          <label for="overlay-color">Overlay Color</label>
+          <input type="color" id="overlay-color" value="#ffffff">
+        </div>
+        <div class="form-group">
+          <label for="filter-select">Filters</label>
+          <select id="filter-select">
+            <option value="none">None</option>
+            <option value="grayscale(80%)">Monochrome</option>
+            <option value="contrast(1.25) saturate(1.3)">Cinematic</option>
+            <option value="sepia(0.65) brightness(1.1)">Vintage</option>
+            <option value="hue-rotate(280deg) saturate(1.5)">Aurora</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="speed">Playback Speed</label>
+          <input type="range" id="speed" min="0.5" max="2" step="0.1" value="1">
+        </div>
+        <button class="btn primary" id="apply-settings">Apply to Clip</button>
+      </div>
+    </section>
+  </main>
+  <footer>Crafted for creators • NovaCut Studio</footer>
+  <div class="floating-hint">
+    <div>
+      <strong>Pro Tip</strong>
+      <div>Drag & drop a file anywhere to import instantly.</div>
+    </div>
+    <span class="hotkey">⌘ + Shift + K</span>
+  </div>
+
+  <script>
+    const preview = document.getElementById('preview');
+    const videoInput = document.getElementById('video-input');
+    const playBtn = document.getElementById('play-btn');
+    const rewindBtn = document.getElementById('rewind-btn');
+    const forwardBtn = document.getElementById('forward-btn');
+    const progressIndicator = document.getElementById('progress-indicator');
+    const playhead = document.getElementById('playhead');
+    const loopBtn = document.getElementById('loop-btn');
+    const snapshotBtn = document.getElementById('snapshot-btn');
+    const previewCanvas = document.getElementById('preview-canvas');
+    const overlayTextInput = document.getElementById('overlay-text');
+    const overlayColorInput = document.getElementById('overlay-color');
+    const overlayContent = document.getElementById('text-overlay-content');
+    const filterSelect = document.getElementById('filter-select');
+    const speedInput = document.getElementById('speed');
+    const applySettings = document.getElementById('apply-settings');
+    const startRange = document.getElementById('start-range');
+    const endRange = document.getElementById('end-range');
+    const clipNameInput = document.getElementById('clip-name');
+    const layerList = document.getElementById('layer-list');
+    const addLayerBtn = document.getElementById('add-layer-btn');
+    const clearLayersBtn = document.getElementById('clear-layers-btn');
+
+    const formatTime = seconds => {
+      if (!Number.isFinite(seconds)) return '00:00';
+      const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+      const s = Math.floor(seconds % 60).toString().padStart(2, '0');
+      return `${m}:${s}`;
+    };
+
+    const setStatusMessage = message => {
+      playBtn.textContent = preview.paused ? `▶︎ ${message}` : `⏸ ${message}`;
+    };
+
+    const updateProgress = () => {
+      if (!preview.duration) return;
+      const ratio = preview.currentTime / preview.duration;
+      progressIndicator.style.transform = `scaleX(${ratio})`;
+      playhead.style.left = `${ratio * 100}%`;
+    };
+
+    const updateClipMarkers = () => {
+      const timelineClips = layerList.querySelectorAll('.layer[data-layer="video"] .clip');
+      timelineClips.forEach((clip, index) => {
+        if (index === 0) {
+          clip.textContent = clipNameInput.value || 'Intro Clip';
+          clip.style.left = `${startRange.valueAsNumber / 1.2}%`;
+          clip.style.right = `${100 - endRange.valueAsNumber / 1.2}%`;
+        }
+      });
+    };
+
+    const drawSnapshot = () => {
+      const ctx = previewCanvas.getContext('2d');
+      previewCanvas.width = preview.videoWidth;
+      previewCanvas.height = preview.videoHeight;
+      ctx.drawImage(preview, 0, 0, previewCanvas.width, previewCanvas.height);
+      ctx.font = 'bold 48px "Plus Jakarta Sans"';
+      ctx.fillStyle = overlayColorInput.value + 'AA';
+      ctx.textAlign = 'center';
+      ctx.fillText(overlayTextInput.value || 'NovaCut', previewCanvas.width / 2, previewCanvas.height / 2);
+      snapshotBtn.textContent = '✅ Captured';
+      setTimeout(() => (snapshotBtn.textContent = '📸 Snapshot'), 1800);
+    };
+
+    videoInput.addEventListener('change', event => {
+      const file = event.target.files[0];
+      if (!file) return;
+      const url = URL.createObjectURL(file);
+      preview.src = url;
+      preview.play().catch(() => preview.pause());
+      setStatusMessage('Pause');
+      clipNameInput.value = file.name.replace(/\.[^/.]+$/, '');
+      updateClipMarkers();
+    });
+
+    playBtn.addEventListener('click', () => {
+      if (!preview.src) {
+        playBtn.textContent = '⚠︎ Load Clip';
+        return;
+      }
+      if (preview.paused) {
+        preview.play();
+        setStatusMessage('Pause');
+      } else {
+        preview.pause();
+        setStatusMessage('Play');
+      }
+    });
+
+    rewindBtn.addEventListener('click', () => {
+      preview.currentTime = Math.max(preview.currentTime - 3, startRange.valueAsNumber);
+    });
+
+    forwardBtn.addEventListener('click', () => {
+      preview.currentTime = Math.min(preview.currentTime + 3, preview.duration || endRange.valueAsNumber);
+    });
+
+    preview.addEventListener('timeupdate', updateProgress);
+    preview.addEventListener('loadedmetadata', () => {
+      startRange.max = Math.floor(preview.duration) - 1;
+      endRange.max = Math.floor(preview.duration);
+      endRange.value = Math.floor(preview.duration);
+      updateProgress();
+    });
+
+    loopBtn.addEventListener('click', () => {
+      preview.loop = !preview.loop;
+      loopBtn.textContent = preview.loop ? '🔁 Looping' : '🔁 Loop';
+    });
+
+    snapshotBtn.addEventListener('click', () => {
+      if (preview.readyState >= 2) {
+        drawSnapshot();
+      }
+    });
+
+    overlayTextInput.addEventListener('input', () => {
+      overlayContent.textContent = overlayTextInput.value.toUpperCase();
+      updateClipMarkers();
+    });
+
+    overlayColorInput.addEventListener('input', () => {
+      overlayContent.style.color = overlayColorInput.value;
+    });
+
+    filterSelect.addEventListener('change', () => {
+      preview.style.filter = filterSelect.value;
+    });
+
+    speedInput.addEventListener('input', () => {
+      preview.playbackRate = parseFloat(speedInput.value);
+    });
+
+    [startRange, endRange].forEach(range => {
+      range.addEventListener('input', () => {
+        if (endRange.valueAsNumber <= startRange.valueAsNumber) {
+          endRange.value = startRange.valueAsNumber + 1;
+        }
+        updateClipMarkers();
+      });
+    });
+
+    applySettings.addEventListener('click', () => {
+      const meta = `${clipNameInput.value || 'Clip'} • ${formatTime(startRange.valueAsNumber)} → ${formatTime(endRange.valueAsNumber)} • ${speedInput.value}x`;
+      const info = document.createElement('div');
+      info.textContent = meta;
+      info.style.fontSize = '0.78rem';
+      info.style.color = 'rgba(255,255,255,0.6)';
+      info.style.paddingTop = '6px';
+      const inspector = document.querySelector('.inspector-panel');
+      inspector.appendChild(info);
+      info.animate([
+        { opacity: 0, transform: 'translateY(12px)' },
+        { opacity: 1, transform: 'translateY(0)' }
+      ], { duration: 320, easing: 'ease-out' });
+      setTimeout(() => info.remove(), 4200);
+    });
+
+    addLayerBtn.addEventListener('click', () => {
+      const newLayer = document.createElement('div');
+      newLayer.className = 'layer';
+      newLayer.innerHTML = `
+        <h4>Layer ${layerList.children.length + 1}</h4>
+        <div class="track">
+          <div class="clip" style="left: 20%; right: 20%; background: rgba(0, 209, 178, 0.55);">Effect</div>
+          <div class="playhead"></div>
+        </div>`;
+      layerList.appendChild(newLayer);
+    });
+
+    clearLayersBtn.addEventListener('click', () => {
+      const layers = Array.from(layerList.children).slice(2);
+      layers.forEach(layer => layer.remove());
+    });
+
+    document.addEventListener('dragover', event => event.preventDefault());
+    document.addEventListener('drop', event => {
+      event.preventDefault();
+      const file = Array.from(event.dataTransfer.files).find(file => file.type.startsWith('video/'));
+      if (!file) return;
+      const url = URL.createObjectURL(file);
+      preview.src = url;
+      preview.play().catch(() => preview.pause());
+      clipNameInput.value = file.name.replace(/\.[^/.]+$/, '');
+      updateClipMarkers();
+    });
+
+    document.addEventListener('keydown', event => {
+      if (event.code === 'Space') {
+        event.preventDefault();
+        playBtn.click();
+      }
+      if (event.code === 'KeyB') {
+        const hint = document.createElement('div');
+        hint.textContent = 'Blade tool activated (imaginary)';
+        hint.style.position = 'fixed';
+        hint.style.bottom = '140px';
+        hint.style.right = '32px';
+        hint.style.background = 'rgba(15, 19, 32, 0.9)';
+        hint.style.padding = '12px 18px';
+        hint.style.borderRadius = '12px';
+        hint.style.border = '1px solid rgba(111, 99, 255, 0.45)';
+        hint.style.boxShadow = '0 18px 40px rgba(0,0,0,0.5)';
+        document.body.appendChild(hint);
+        setTimeout(() => hint.remove(), 1800);
+      }
+    });
+
+    preview.addEventListener('ended', () => {
+      setStatusMessage('Replay');
+    });
+  </script>
+</body>
+</html>
